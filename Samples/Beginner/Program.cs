@@ -14,8 +14,15 @@ namespace Beginner
     {
 
         #region Model
+
+        /// <summary>
+        /// Model for beginner example.  Trite, I know.
+        /// </summary>
         internal class ExampleModel
         {
+            /// <summary>
+            /// Estimate amount
+            /// </summary>
             public decimal EstimateAmount { get; set; } = 0;
         }
         #endregion
@@ -23,6 +30,7 @@ namespace Beginner
         #region Evaluators
         internal class DoesCustomerDecideEvaluator : IRuleEvaluator<Program.ExampleModel>
         {
+
             public Evaluator Definition => new Evaluator()
             {
                 Description = "Evaluates if model.estimate exceeds threashold",
@@ -71,7 +79,7 @@ namespace Beginner
         #endregion
 
         #region BuilderFactory
-        internal class BuilderFactory : IWorkflowDefinitionFactory
+        internal class BuilderFactory : IWorkflowBuilderFactory
         {
             public IBuilderWorkflow<T> GetWorkflow<T>(string workflowId)
             {
