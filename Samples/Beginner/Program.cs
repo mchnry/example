@@ -81,20 +81,21 @@ namespace Beginner
         #region BuilderFactory
         internal class BuilderFactory : IWorkflowBuilderFactory
         {
-            public IBuilderWorkflow<T> GetWorkflow<T>(string workflowId)
+            public IWorkflowBuilder<T> GetWorkflow<T>(string workflowId)
             {
-                IBuilderWorkflow<T> toReturn = default;
+                IWorkflowBuilder<T> toReturn = default;
 
                 switch(workflowId)
                 {
                     case "example":
-                        toReturn = (IBuilderWorkflow<T>)Builder<ExampleModel>
+                        toReturn = (IWorkflowBuilder<T>)new WorkflowBuilder<ExampleModel>( Builder<ExampleModel>
                             .CreateBuilder(workflowId)
                             .BuildFluent(todo => todo
                                 .IfThenDo(
-                                    If => If.True(e => e.Eval(new DoesCustomerDecideEvaluator()).IsTrue()),
+                                    If => If.RuleIsTrue(e => e.Eval(new DoesCustomerDecideEvaluator()).IsTrue()),
                                     Then => Then.Do(a => a.Do(new SendRequestToCustomerAction()))
                                 ).Else(Else => Else.Do(a => a.Do(new AutoApproveAction())))
+                        )
                         );
                         break;
                 }
